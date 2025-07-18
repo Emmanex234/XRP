@@ -416,6 +416,23 @@
     <section class="hero">
         <h1>Exclusive XRP Airdrop</h1>
         <p>Join the largest XRP token distribution event. Limited time opportunity!</p>
+        <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+            <img src="/flyer.jpg" alt="XRP Airdrop Flyer"
+            style="max-width: 400px; width: 100%; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); border: 4px solid #87CEEB;
+            animation: flyer-pop 1.2s cubic-bezier(.23,1.12,.68,.99) 0s 1, flyer-float 3s ease-in-out infinite alternate;">
+        </div>
+        <style>
+            @keyframes flyer-pop {
+            0% { opacity: 0; transform: scale(0.7) rotate(-8deg);}
+            60% { opacity: 1; transform: scale(1.05) rotate(2deg);}
+            80% { transform: scale(0.98) rotate(-1deg);}
+            100% { opacity: 1; transform: scale(1) rotate(0);}
+            }
+            @keyframes flyer-float {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(-18px);}
+            }
+        </style>
         <button class="cta-button" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'});">Participate Now</button>
     </section>
 
@@ -578,39 +595,105 @@
 
     <script>
         // Create animated particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+        // XRP Distribution Countdown Script
+// Reduces remaining XRP by 2% every 45 minutes for 30 days
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
+// Configuration
+const REDUCTION_RATE = 0.02; // 2%
+const INTERVAL_MINUTES = 45;
+const TOTAL_DAYS = 30;
+const INITIAL_REMAINING = 899434;
+const TOTAL_XRP = 1000000;
 
-        // Animate counter numbers
-        function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
-            counters.forEach(counter => {
-                const target = parseInt(counter.textContent.replace(/,/g, ''));
-                const increment = target / 100;
-                let current = 0;
-                
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    counter.textContent = current.toLocaleString();
-                }, 20);
-            });
-        }
+// State variables
+let currentRemaining = INITIAL_REMAINING;
+let currentDistributed = TOTAL_XRP - INITIAL_REMAINING;
+let startTime = Date.now();
+
+// Calculate total intervals in 30 days
+const totalIntervals = (TOTAL_DAYS * 24 * 60) / INTERVAL_MINUTES;
+let currentInterval = 0;
+
+// DOM elements
+const remainingElement = document.querySelector('.stat-card:nth-child(3) .stat-number');
+const distributedElement = document.querySelector('.stat-card:nth-child(2) .stat-number');
+const progressElement = document.querySelector('.stat-card:nth-child(4) .stat-number');
+const progressBar = document.querySelector('.progress-bar');
+
+// Format number with commas
+function formatNumber(num) {
+    return Math.floor(num).toLocaleString();
+}
+
+// Format number with decimals
+function formatDecimal(num) {
+    return num.toFixed(2);
+}
+
+// Update display
+function updateDisplay() {
+    // Update remaining XRP
+    remainingElement.textContent = formatNumber(currentRemaining);
+    
+    // Update distributed XRP
+    distributedElement.textContent = formatNumber(currentDistributed);
+    
+    // Calculate and update progress percentage
+    const progressPercent = ((TOTAL_XRP - currentRemaining) / TOTAL_XRP) * 100;
+    progressElement.textContent = formatDecimal(progressPercent) + '%';
+    
+    // Update progress bar
+    if (progressBar) {
+        progressBar.style.width = progressPercent + '%';
+    }
+}
+
+// Reduce XRP amount
+function reduceXRP() {
+    if (currentInterval >= totalIntervals || currentRemaining <= 0) {
+        clearInterval(countdownInterval);
+        return;
+    }
+    
+    // Calculate reduction amount (2% of current remaining)
+    const reductionAmount = currentRemaining * REDUCTION_RATE;
+    
+    // Apply reduction
+    currentRemaining = Math.max(0, currentRemaining - reductionAmount);
+    currentDistributed = TOTAL_XRP - currentRemaining;
+    
+    // Update display
+    updateDisplay();
+    
+    // Increment interval counter
+    currentInterval++;
+    
+    console.log(`Interval ${currentInterval}/${totalIntervals}: Reduced by ${formatNumber(reductionAmount)} XRP`);
+}
+
+// Initialize countdown
+function initializeCountdown() {
+    // Initial display update
+    updateDisplay();
+    
+    // Start the countdown interval (45 minutes = 45 * 60 * 1000 ms)
+    const countdownInterval = setInterval(reduceXRP, INTERVAL_MINUTES * 60 * 1000);
+    
+    // For testing purposes, uncomment the line below to run every 5 seconds instead
+    // const countdownInterval = setInterval(reduceXRP, 5000);
+    
+    console.log(`XRP Countdown initialized. Will reduce by 2% every ${INTERVAL_MINUTES} minutes for ${TOTAL_DAYS} days.`);
+    console.log(`Total intervals: ${totalIntervals}`);
+    
+    return countdownInterval;
+}
+
+// Start the countdown when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCountdown);
+} else {
+    initializeCountdown();
+}
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

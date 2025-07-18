@@ -1,286 +1,648 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XRP Airdrop - Claim Your Tokens</title>
-    <link rel="stylesheet" href="/inex.css">
+    <title>XRP Airdrop - Exclusive Token Distribution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #ffffff 50%, #87CEEB 100%);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(135, 206, 235, 0.5);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            padding: 20px 0;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1568ac;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #87CEEB;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(135,206,235,0.1) 100%);
+            margin-bottom: 50px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(135,206,235,0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(135,206,235,0.6);
+        }
+
+        /* Stats Section */
+        .stats {
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 2px solid rgba(135,206,235,0.3);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0a66b1;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .content-card {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid rgba(135,206,235,0.3);
+        }
+
+        .content-card h2 {
+            color: #000;
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #87CEEB;
+            padding-bottom: 10px;
+        }
+
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            border: 2px dashed #87CEEB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        .address-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #87CEEB;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .memo-tag {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #1976d2;
+        }
+
+        /* Black Animated Section */
+        .black-section {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            padding: 60px 20px;
+            margin: 50px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .black-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(135,206,235,0.1), transparent);
+            animation: sweep 3s linear infinite;
+        }
+
+        @keyframes sweep {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        .black-section h2 {
+            color: #87CEEB;
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .transactions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .transaction-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(135,206,235,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .transaction-card h3 {
+            color: #87CEEB;
+            margin-bottom: 10px;
+        }
+
+        .transaction-card p {
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+
+        .transaction-hash {
+            font-family: monospace;
+            font-size: 12px;
+            color: #87CEEB;
+            word-break: break-all;
+        }
+
+        /* News Section */
+        .news-section {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .news-item {
+            padding: 20px;
+            border-left: 4px solid #87CEEB;
+            background: #f8f9fa;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .news-item:hover {
+            transform: translateX(5px);
+        }
+
+        .news-date {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            color: #000;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .news-summary {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: linear-gradient(90deg, #87CEEB 0%, #4682B4 100%);
+            width: 23.57%;
+            transition: width 2s ease-in-out;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
             <div class="logo">
-                <svg width="50" height="50" viewBox="0 0 50 50" fill="white">
-                    <path d="M25 5L35 15H30V25H35L25 35L15 25H20V15H15L25 5Z"/>
-                </svg>
+                <img src="/logo.jpg" alt="XRP Logo" style="height:40px; width:40px; border-radius:50%; object-fit:cover; vertical-align:middle; margin-right:10px;">
+                XRP AIRDROP
             </div>
-
-        <div class="about-section">
-            <h2 class="section-title">🎯 About This Airdrop</h2>
-            <div class="about-content">
-                <p>Welcome to the exclusive XRP Airdrop campaign! This is a limited-time opportunity to claim free XRP tokens as part of our community expansion initiative. We're distributing 100,000 XRP tokens to eligible participants who follow our simple participation process.</p>
-                
-                <div class="highlight-box">
-                    <h3>🚀 Why This Airdrop?</h3>
-                    <ul>
-                        <li>Building a stronger XRP community</li>
-                        <li>Rewarding early supporters and new participants</li>
-                        <li>Promoting XRP adoption and awareness</li>
-                        <li>Creating value for dedicated community members</li>
-                    </ul>
-                </div>
-            </div>
+            <nav class="nav-links">
+                <a href="#participate">Participate</a>
+                <a href="#about">About</a>
+                <a href="#news">News</a>
+                <a href="#transactions">Transactions</a>
+            </nav>
         </div>
+    </header>
 
-        <div class="instructions-section">
-            <h2 class="section-title">📋 How to Participate</h2>
-            <div class="instruction-steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Scan QR Code</h3>
-                        <p>Use your mobile wallet to scan the QR code above or manually enter the deposit address provided.</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Send Required Amount</h3>
-                        <p>Send a minimum of <strong>20 XRP</strong> to the provided address. This covers network fees and validates your participation.</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Include Memo/Tag</h3>
-                        <p>IMPORTANT: Always include the memo/tag <strong>237891</strong> with your transaction. Without this, your transaction cannot be processed.</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Receive Your Airdrop</h3>
-                        <p>Within 24-48 hours, you'll receive <strong>2x to 5x</strong> your deposit amount back as part of the airdrop rewards program.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="important-notes">
-                <h3>⚠️ Important Notes</h3>
-                <ul>
-                    <li>Minimum deposit: 20 XRP</li>
-                    <li>Maximum deposit: 1,000 XRP per participant</li>
-                    <li>Always include the memo/tag 237891</li>
-                    <li>Processing time: 24-48 hours</li>
-                    <li>One-time participation per wallet address</li>
-                    <li>Airdrop ends when 100,000 XRP is fully distributed</li>
-                </ul>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Exclusive XRP Airdrop</h1>
+        <p>Join the largest XRP token distribution event. Limited time opportunity!</p>
+        <button class="cta-button">Participate Now</button>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stat-card">
+            <div class="stat-number">100,000</div>
+            <div class="stat-label">Total XRP Distribution</div>
         </div>
-            <h1 class="title">XRP AIRDROP</h1>
-            <p class="subtitle">Claim Your Free XRP Tokens</p>
+        <div class="stat-card">
+            <div class="stat-number">23,566.98</div>
+            <div class="stat-label">XRP Distributed</div>
         </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">100,000</div>
-                <div class="stat-label">Total XRP Distribution</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">23,566.98</div>
-                <div class="stat-label">XRP Distributed</div>
-            </div>
+        <div class="stat-card">
+            <div class="stat-number">76,433.02</div>
+            <div class="stat-label">XRP Remaining</div>
         </div>
-
-        <div class="progress-section">
-            <div class="progress-header">
-                <div class="progress-title">Distribution Progress</div>
-                <div class="progress-percentage">23.57%</div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-            <div class="progress-info">
-                <span>23,566.98 XRP Claimed</span>
-                <span>76,433.02 XRP Remaining</span>
-            </div>
+        <div class="stat-card">
+            <div class="stat-number">23.57%</div>
+            <div class="stat-label">Progress</div>
         </div>
+    </section>
 
-        <div class="qr-section">
-            <div class="qr-title">📱 Scan QR Code to Claim</div>
-            <div class="qr-placeholder">
-                <img src="/QR.jpg" alt="XRP Deposit QR Code" width="160" height="160">
-               
-            </div>
+    <!-- Progress Bar -->
+    <div class="main-content">
+        <div class="progress-container">
+            <div class="progress-bar"></div>
         </div>
+    </div>
 
-        <div class="address-section">
-            <div class="address-title">📍 Deposit Address</div>
-            <div class="address-value">rs2dgzYeqYqsk8bvkQR5YPyqsXYcA24MP2</div>
-            <button class="copy-btn" onclick="copyAddress()">Copy Address</button>
-            <style>
-            .copy-btn {
-                margin-top: 12px;
-                padding: 8px 18px;
-                background: linear-gradient(90deg, #25a4e6 0%, #00e1c0 100%);
-                color: #fff;
-                border: none;
-                border-radius: 6px;
-                font-size: 1rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: background 0.2s, box-shadow 0.2s;
-                box-shadow: 0 2px 8px rgba(37, 164, 230, 0.08);
-            }
-            .copy-btn:hover, .copy-btn:focus {
-                background: linear-gradient(90deg, #00e1c0 0%, #25a4e6 100%);
-                box-shadow: 0 4px 16px rgba(0, 225, 192, 0.15);
-                outline: none;
-            }
-            </style>
-            <script>
-            function copyAddress() {
-                const address = document.querySelector('.address-value').textContent.trim();
-                navigator.clipboard.writeText(address).then(() => {
-                    const btn = document.querySelector('.copy-btn');
-                    btn.textContent = 'Copied!';
-                    setTimeout(() => btn.textContent = 'Copy Address', 1500);
-                });
-            }
-            </script>
-        </div>
-
-        <div class="memo-section">
-            <div class="memo-title">🏷️ Memo/Tag (Required)</div>
-            <div class="memo-value">237891</div>
-        </div>
-
-        <div class="transactions-section">
-            <div class="transactions-title">
-                <span class="live-indicator"></span>
-                Recent Transactions
-            </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-header">
-                    <span class="transaction-amount">+1,250.00 XRP</span>
-                    <span class="transaction-time">2 minutes ago</span>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-grid">
+            <!-- Participation Instructions -->
+            <div class="content-card">
+                <h2>🚀 How to Participate</h2>
+                <div class="qr-placeholder">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=rs2dgzYeqYqsk8bvkQR5YPyqsXYcA24MP2%3A23789" alt="XRP Address QR Code" style="width: 180px; height: 180px;">
                 </div>
-                <div class="transaction-address">From: rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH</div>
-            </div>
-
-            <div class="transaction-item">
-                <div class="transaction-header">
-                    <span class="transaction-amount">+875.50 XRP</span>
-                    <span class="transaction-time">7 minutes ago</span>
+                <div class="address-box">
+                    <strong>XRP Address:</strong><br>
+                    <span id="xrp-address" style="user-select: all; cursor: pointer;">rs2dgzYeqYqsk8bvkQR5YPyqsXYcA24MP2</span>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('xrp-address').textContent)" style="margin-left:10px; padding:4px 10px; border-radius:5px; border:none; background:#87CEEB; color:#fff; cursor:pointer;">Copy</button>
                 </div>
-                <div class="transaction-address">From: rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w</div>
-            </div>
-
-            <div class="transaction-item">
-                <div class="transaction-header">
-                    <span class="transaction-amount">+2,100.00 XRP</span>
-                    <span class="transaction-time">12 minutes ago</span>
+                <div class="memo-tag">
+                    <strong>Memo/Tag:</strong> <span id="xrp-memo" style="user-select: all; cursor: pointer;">237891</span>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('xrp-memo').textContent)" style="margin-left:10px; padding:4px 10px; border-radius:5px; border:none; background:#87CEEB; color:#fff; cursor:pointer;">Copy</button>
                 </div>
-                <div class="transaction-address">From: rDMUvqr6gjGiDHgNHH5GVYnLgqJ5vPwYxw</div>
+                <ol style="color: #333; line-height: 1.6; margin-top: 20px;">
+                    <li>Send minimum 20 XRP to the address above</li>
+                    <li>Include the memo/tag: <strong>237891</strong></li>
+                    <li>Wait 24-48 hours for processing</li>
+                    <li>Receive 2x your sent amount back</li>
+                </ol>
             </div>
 
-            <div class="transaction-item">
-                <div class="transaction-header">
-                    <span class="transaction-amount">+650.25 XRP</span>
-                    <span class="transaction-time">18 minutes ago</span>
+            <!-- About Section -->
+            <div class="content-card">
+                <h2>💎 About This Airdrop</h2>
+                <p style="color: #333; line-height: 1.8;">
+                    This exclusive XRP airdrop is sponsored by Ripple's official partners. We're distributing 100,000 XRP tokens to early supporters and active community members.
+                </p>
+                <div style="margin: 20px 0;">
+                    <p><strong>Team Website:</strong> <a href="https://ripple.com" target="_blank" style="color: #4682B4;">ripple.com</a></p>
+                    <p><strong>Explorer:</strong> <a href="https://xrpscan.com/" target="_blank" style="color: #4682B4;">xrpscan.com</a></p>
+                    <p><strong>Duration:</strong> Limited time offer</p>
+                    <p><strong>Eligibility:</strong> All XRP holders worldwide</p>
                 </div>
-                <div class="transaction-address">From: rMQ98K56yXJbDGv49ZSmW51sLn94Xe1mu1</div>
-            </div>
-
-            <div class="transaction-item">
-                <div class="transaction-header">
-                    <span class="transaction-amount">+1,500.00 XRP</span>
-                    <span class="transaction-time">25 minutes ago</span>
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <strong style="color: #2d5a2d;">✅ Verified Airdrop</strong><br>
+                    <span style="color: #555;">This airdrop has been verified by our security team.</span>
                 </div>
-                <div class="transaction-address">From: rUfzHgcpfKvKGNvP3SRSoqrRfJQqhZwZvw</div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="footer-links">
-                <a href="https://ripple.com" class="footer-link" target="_blank">🌐 Official Website</a>
-                <a href="https://xrpscan.com/" class="footer-link" target="_blank">🔍 Explorer</a>
-            </div>
-            <div class="disclaimer">
-                ⚠️ This is a limited-time airdrop. Terms and conditions apply.
             </div>
         </div>
     </div>
 
+    <!-- Black Animated Section - Recent Transactions -->
+    <section class="black-section">
+        <h2>Recent Transactions</h2>
+        <div class="transactions-grid">
+            <div class="transaction-card">
+                <h3>Transaction #1</h3>
+                <p><strong>Amount:</strong> 150.00 XRP</p>
+                <p><strong>From:</strong> rN7n7otQ...KjVT</p>
+                <p><strong>Status:</strong> <span style="color: #4CAF50;">Confirmed</span></p>
+                <p><strong>Reward:</strong> 300.00 XRP</p>
+                <div class="transaction-hash">Hash: 8F5A2B1C9D3E4F5A6B7C8D9E0F1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A</div>
+            </div>
+            <div class="transaction-card">
+                <h3>Transaction #2</h3>
+                <p><strong>Amount:</strong> 75.50 XRP</p>
+                <p><strong>From:</strong> rD4B3n9K...L2mP</p>
+                <p><strong>Status:</strong> <span style="color: #4CAF50;">Confirmed</span></p>
+                <p><strong>Reward:</strong> 151.00 XRP</p>
+                <div class="transaction-hash">Hash: 1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A0B1C2D3E4F5A6B7C8D9E0F1A2B</div>
+            </div>
+            <div class="transaction-card">
+                <h3>Transaction #3</h3>
+                <p><strong>Amount:</strong> 200.00 XRP</p>
+                <p><strong>From:</strong> rP8x5Y2z...M9nQ</p>
+                <p><strong>Status:</strong> <span style="color: #FF9800;">Processing</span></p>
+                <p><strong>Reward:</strong> 400.00 XRP</p>
+                <div class="transaction-hash">Hash: 3C4D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A0B1C2D3E4F5A6B7C8D9E0F1A2B3C4D</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <div class="main-content">
+        <div class="news-section">
+            <h2 style="color: #000; margin-bottom: 30px; text-align: center;">📰 Latest Crypto News</h2>
+            <div class="news-grid">
+                <div class="news-item">
+                    <div class="news-date">July 18, 2025</div>
+                    <div class="news-title">XRP Reaches New All-Time High</div>
+                    <div class="news-summary">XRP token surged to unprecedented levels today, driven by increased institutional adoption and regulatory clarity from major financial jurisdictions.</div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">July 17, 2025</div>
+                    <div class="news-title">Ripple Partners with Major Banks</div>
+                    <div class="news-summary">Ripple announced strategic partnerships with five major international banks to facilitate cross-border payments using XRP technology.</div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">July 16, 2025</div>
+                    <div class="news-title">Crypto Market Shows Strong Recovery</div>
+                    <div class="news-summary">The cryptocurrency market demonstrated significant recovery with XRP leading the charge, showing 15% gains in the past 24 hours.</div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">July 15, 2025</div>
+                    <div class="news-title">SEC Provides Clarity on XRP Status</div>
+                    <div class="news-summary">The Securities and Exchange Commission released new guidelines confirming XRP's utility token status, providing much-needed regulatory clarity.</div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">July 14, 2025</div>
+                    <div class="news-title">Institutional XRP Adoption Grows</div>
+                    <div class="news-summary">Major financial institutions continue to adopt XRP for international transfers, with transaction volumes reaching record highs this quarter.</div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">July 13, 2025</div>
+                    <div class="news-title">XRP Ledger Upgrade Successful</div>
+                    <div class="news-summary">The latest XRP Ledger upgrade has been successfully implemented, bringing enhanced security features and improved transaction speeds.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: #000; color: white; padding: 40px 20px; text-align: center; margin-top: 50px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h3 style="color: #87CEEB; margin-bottom: 20px;">XRP Airdrop Platform</h3>
+            <p style="margin-bottom: 20px;">Secure • Transparent • Professional</p>
+            <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+                <a href="#" style="color: #87CEEB; text-decoration: none;">Terms of Service</a>
+                <a href="#" style="color: #87CEEB; text-decoration: none;">Privacy Policy</a>
+                <a href="#" style="color: #87CEEB; text-decoration: none;">Contact Support</a>
+            </div>
+            <p style="font-size: 12px; color: #666;">© 2025 XRP Airdrop Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script>
-        // Add some dynamic effects
-        function updateTransactionTimes() {
-            const timeElements = document.querySelectorAll('.transaction-time');
-            const baseTimes = [2, 7, 12, 18, 25];
-            
-            timeElements.forEach((el, index) => {
-                const minutes = baseTimes[index] + Math.floor(Date.now() / 60000) % 60;
-                if (minutes < 60) {
-                    el.textContent = `${minutes} minutes ago`;
-                } else {
-                    el.textContent = `${Math.floor(minutes / 60)} hours ago`;
-                }
+        // Create animated particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Animate counter numbers
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent.replace(/,/g, ''));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = current.toLocaleString();
+                }, 20);
             });
         }
 
-        // Update times every minute
-        setInterval(updateTransactionTimes, 60000);
-
-        // Add floating animation to logo
-        const logo = document.querySelector('.logo');
-        let angle = 0;
-        
-        function animateLogo() {
-            angle += 0.02;
-            logo.style.transform = `translateY(${Math.sin(angle) * 3}px)`;
-            requestAnimationFrame(animateLogo);
-        }
-        
-        animateLogo();
-
-        // Add particle effect
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.style.position = 'fixed';
-            particle.style.width = '6px';
-            particle.style.height = '6px';
-            particle.style.background = 'rgba(255, 215, 0, 0.6)';
-            particle.style.borderRadius = '50%';
-            particle.style.pointerEvents = 'none';
-            particle.style.zIndex = '1000';
-            particle.style.left = Math.random() * window.innerWidth + 'px';
-            particle.style.top = '-10px';
-            
-            document.body.appendChild(particle);
-            
-            let pos = -10;
-            const speed = 1 + Math.random() * 2;
-            
-            function moveParticle() {
-                pos += speed;
-                particle.style.top = pos + 'px';
-                particle.style.opacity = 1 - (pos / window.innerHeight);
-                
-                if (pos > window.innerHeight) {
-                    particle.remove();
-                } else {
-                    requestAnimationFrame(moveParticle);
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 }
-            }
-            
-            moveParticle();
-        }
+            });
+        });
 
-        // Create particles occasionally
-        setInterval(createParticle, 3000);
+        // Initialize animations when page loads
+        window.addEventListener('load', function() {
+            createParticles();
+            setTimeout(animateCounters, 500);
+        });
+
+        // Add hover effects to transaction cards
+        document.querySelectorAll('.transaction-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 30px rgba(135,206,235,0.3)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
     </script>
 </body>
 </html>
